@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 03 - JavaScript | Estruturas de Dados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .header .professor {
+            color: #3498db;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .objectives {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .objectives h2 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .objectives ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .objectives li {
+            color: #34495e;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .objectives li:last-child {
+            border-bottom: none;
+        }
+
+        .features {
+            background: #e8f5e8;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .features h2 {
+            color: #27ae60;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features li {
+            color: #2d5a2d;
+            margin: 8px 0;
+            padding: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions {
+            background: #fff3cd;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .instructions h2 {
+            color: #856404;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions ol {
+            color: #856404;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+        }
+
+        .btn.secondary:hover {
+            box-shadow: 0 10px 25px rgba(149, 165, 166, 0.3);
+        }
+
+        .console-info {
+            background: #d1ecf1;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #0c5460;
+            font-size: 0.9em;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ Exercício 03 - JavaScript</h1>
+            <div class="subtitle">Estruturas de Dados e Objetos</div>
+        </div>
+
+        <div class="objectives">
+            <h2><span class="emoji">🎯</span> Objetivos do Exercício</h2>
+            <ul>
+                <li><span class="emoji">🏗️</span> Criar função construtora para objetos Pessoa</li>
+                <li><span class="emoji">📊</span> Agrupar dados em estruturas organizadas</li>
+                <li><span class="emoji">🔄</span> Permitir quantidade arbitrária de registros</li>
+                <li><span class="emoji">⚙️</span> Separar comparações em funções específicas</li>
+                <li><span class="emoji">🤔</span> Confirmar entre cada cadastro se deseja continuar</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <h2><span class="emoji">✨</span> Funcionalidades Implementadas</h2>
+            <ul>
+                <li><span class="emoji">👤</span> Função construtora Pessoa com métodos</li>
+                <li><span class="emoji">📝</span> Cadastro interativo com confirmação</li>
+                <li><span class="emoji">✅</span> Validação de dados obrigatórios</li>
+                <li><span class="emoji">🔍</span> Comparações separadas por categoria</li>
+                <li><span class="emoji">📊</span> Estatísticas detalhadas do grupo</li>
+                <li><span class="emoji">🎨</span> Interface amigável e responsiva</li>
+                <li><span class="emoji">🛡️</span> Tratamento de erros robusto</li>
+            </ul>
+        </div>
+
+        <div class="instructions">
+            <h2><span class="emoji">📋</span> Como Executar</h2>
+            <ol>
+                <li>Clique em "Iniciar Exercício" para começar o cadastro</li>
+                <li>Preencha os dados de cada pessoa quando solicitado</li>
+                <li>Após cada cadastro, escolha se deseja adicionar mais pessoas</li>
+                <li>Aguarde o processamento das comparações automáticas</li>
+                <li>Visualize os resultados no console do navegador (F12)</li>
+                <li>Use "Ver Exemplo" para demonstração com dados fictícios</li>
+            </ol>
+        </div>
+
+        <div class="buttons">
+            <button class="btn" onclick="iniciarExercicio03()">
+                <span class="emoji">🚀</span>
+                Iniciar Exercício
+            </button>
+            <button class="btn secondary" onclick="exemploComDadosFicticios()">
+                <span class="emoji">👁️</span>
+                Ver Exemplo
+            </button>
+        </div>
+
+        <div class="console-info">
+            <strong>💡 Dica:</strong> Abra o Console do Navegador (F12 → Console) para ver todos os resultados e interações do exercício.
+        </div>
+    </div>
+
+    <script src="exercicio03.js"></script>
+</body>
+</html>

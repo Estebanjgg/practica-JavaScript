@@ -1,9 +1,32 @@
-// Exercício 02 - JavaScript
-// Executar operações - Receber dados de mais de uma pessoa
+// Exercício 03 - JavaScript
+// Agrupar dados em estruturas - Objeto modelo e quantidade variável
 
-// Função para obter dados de uma pessoa usando prompt
-function obterDadosPessoa(numeroPessoa) {
-    console.log(`\n=== COLETANDO DADOS DA PESSOA ${numeroPessoa} ===`);
+// Função construtora para criar objetos Pessoa
+function Pessoa(nome, sobrenome, idade, email, cidade, profissao, corPreferida, altura) {
+    this.nome = nome;
+    this.sobrenome = sobrenome;
+    this.nomeCompleto = `${nome} ${sobrenome}`;
+    this.idade = parseInt(idade) || 0;
+    this.email = email;
+    this.cidade = cidade;
+    this.profissao = profissao;
+    this.corPreferida = corPreferida?.toLowerCase();
+    this.altura = parseInt(altura) || 0;
+    
+    // Método para exibir informações da pessoa
+    this.exibirInfo = function() {
+        console.log(`👤 ${this.nomeCompleto} - ${this.idade} anos - ${this.cidade}`);
+    };
+    
+    // Método para validar dados obrigatórios
+    this.isValida = function() {
+        return this.nome && this.sobrenome && this.idade > 0;
+    };
+}
+
+// Função para coletar dados de uma pessoa
+function coletarDadosPessoa(numeroPessoa) {
+    console.log(`\n=== CADASTRANDO PESSOA ${numeroPessoa} ===`);
     
     const nome = prompt(`Digite o nome da pessoa ${numeroPessoa}:`);
     const sobrenome = prompt(`Digite o sobrenome da pessoa ${numeroPessoa}:`);
@@ -14,47 +37,69 @@ function obterDadosPessoa(numeroPessoa) {
     const corPreferida = prompt(`Digite a cor preferida da pessoa ${numeroPessoa}:`);
     const altura = prompt(`Digite a altura da pessoa ${numeroPessoa} (em cm):`);
     
-    return {
-        numero: numeroPessoa,
-        nome: nome,
-        sobrenome: sobrenome,
-        nomeCompleto: `${nome} ${sobrenome}`,
-        idade: parseInt(idade) || 0,
-        email: email,
-        cidade: cidade,
-        profissao: profissao,
-        corPreferida: corPreferida?.toLowerCase(),
-        altura: parseInt(altura) || 0
-    };
+    // Criar nova instância usando o construtor
+    const pessoa = new Pessoa(nome, sobrenome, idade, email, cidade, profissao, corPreferida, altura);
+    
+    if (pessoa.isValida()) {
+        console.log(`✅ Pessoa ${numeroPessoa} cadastrada com sucesso!`);
+        pessoa.exibirInfo();
+        return pessoa;
+    } else {
+        console.log(`❌ Dados inválidos para a pessoa ${numeroPessoa}. Nome, sobrenome e idade são obrigatórios!`);
+        return null;
+    }
 }
 
-// Função para coletar dados de múltiplas pessoas
-function coletarDadosMultiplasPessoas() {
-    const quantidadePessoas = parseInt(prompt('Quantas pessoas você deseja cadastrar? (mínimo 2):')) || 2;
-    
-    if (quantidadePessoas < 2) {
-        alert('É necessário cadastrar pelo menos 2 pessoas para fazer comparações!');
-        return coletarDadosMultiplasPessoas();
-    }
-    
+// Função para coletar dados de quantidade arbitrária de pessoas
+function coletarTodasPessoas() {
     const pessoas = [];
+    let numeroPessoa = 1;
+    let continuarCadastro = true;
     
-    for (let i = 1; i <= quantidadePessoas; i++) {
-        const pessoa = obterDadosPessoa(i);
-        if (pessoa.nome && pessoa.sobrenome) {
+    console.log('🚀 INICIANDO CADASTRO DE PESSOAS');
+    console.log('Você pode cadastrar quantas pessoas desejar!');
+    
+    while (continuarCadastro) {
+        const pessoa = coletarDadosPessoa(numeroPessoa);
+        
+        if (pessoa) {
             pessoas.push(pessoa);
+            numeroPessoa++;
+            
+            // Perguntar se deseja adicionar mais uma pessoa
+            if (pessoas.length >= 2) {
+                const resposta = prompt(`\n🤔 Deseja cadastrar mais uma pessoa? (sim/não):`);
+                continuarCadastro = resposta?.toLowerCase() === 'sim' || resposta?.toLowerCase() === 's';
+            } else {
+                console.log('\n📝 É necessário pelo menos 2 pessoas para fazer comparações.');
+                const resposta = prompt('Deseja cadastrar mais uma pessoa? (sim/não):');
+                continuarCadastro = resposta?.toLowerCase() === 'sim' || resposta?.toLowerCase() === 's';
+                
+                if (!continuarCadastro && pessoas.length < 2) {
+                    console.log('⚠️ Cadastro cancelado. É necessário pelo menos 2 pessoas.');
+                    return [];
+                }
+            }
         } else {
-            console.log(`❌ Dados incompletos para a pessoa ${i}. Nome e sobrenome são obrigatórios!`);
-            i--; // Repetir a coleta para esta pessoa
+            // Se os dados foram inválidos, perguntar se quer tentar novamente
+            const tentarNovamente = prompt('Deseja tentar cadastrar esta pessoa novamente? (sim/não):');
+            if (tentarNovamente?.toLowerCase() !== 'sim' && tentarNovamente?.toLowerCase() !== 's') {
+                if (pessoas.length < 2) {
+                    console.log('⚠️ Cadastro cancelado. É necessário pelo menos 2 pessoas.');
+                    return [];
+                }
+                continuarCadastro = false;
+            }
         }
     }
     
+    console.log(`\n🎉 Cadastro finalizado! Total de pessoas: ${pessoas.length}`);
     return pessoas;
 }
 
 // Função para exibir dados de todas as pessoas
-function exibirDadosTodasPessoas(pessoas) {
-    console.log('\n=== DADOS DE TODAS AS PESSOAS ===');
+function exibirTodasPessoas(pessoas) {
+    console.log('\n=== DADOS DE TODAS AS PESSOAS CADASTRADAS ===');
     
     pessoas.forEach((pessoa, index) => {
         console.log(`\n--- Pessoa ${index + 1} ---`);
@@ -78,11 +123,13 @@ function exibirDadosTodasPessoas(pessoas) {
     })));
 }
 
-// Função para comparar idades
+// === FUNÇÕES DE COMPARAÇÃO SEPARADAS ===
+
+// Função para comparações de idade
 function compararIdades(pessoas) {
-    console.log('\n=== COMPARAÇÕES DE IDADE ===');
+    console.log('\n=== 👴👶 COMPARAÇÕES DE IDADE ===');
     
-    // Encontrar a pessoa mais velha e mais nova
+    // Encontrar extremos
     const maisVelha = pessoas.reduce((prev, current) => 
         (prev.idade > current.idade) ? prev : current
     );
@@ -111,11 +158,10 @@ function compararIdades(pessoas) {
     }
 }
 
-// Função para comparar cores preferidas
+// Função para comparações de cores preferidas
 function compararCoresPreferidas(pessoas) {
-    console.log('\n=== COMPARAÇÕES DE CORES PREFERIDAS ===');
+    console.log('\n=== 🎨 COMPARAÇÕES DE CORES PREFERIDAS ===');
     
-    // Agrupar pessoas por cor preferida
     const coresPorPessoa = {};
     
     pessoas.forEach(pessoa => {
@@ -127,7 +173,6 @@ function compararCoresPreferidas(pessoas) {
         }
     });
     
-    // Exibir cores em comum
     Object.keys(coresPorPessoa).forEach(cor => {
         const pessoasComEssaCor = coresPorPessoa[cor];
         if (pessoasComEssaCor.length > 1) {
@@ -138,9 +183,9 @@ function compararCoresPreferidas(pessoas) {
     });
 }
 
-// Função para comparar alturas
+// Função para comparações de altura
 function compararAlturas(pessoas) {
-    console.log('\n=== COMPARAÇÕES DE ALTURA ===');
+    console.log('\n=== 📏 COMPARAÇÕES DE ALTURA ===');
     
     const maisAlta = pessoas.reduce((prev, current) => 
         (prev.altura > current.altura) ? prev : current
@@ -153,7 +198,7 @@ function compararAlturas(pessoas) {
     console.log(`📏 Pessoa mais alta: ${maisAlta.nomeCompleto} com ${maisAlta.altura} cm`);
     console.log(`📏 Pessoa mais baixa: ${maisBaixa.nomeCompleto} com ${maisBaixa.altura} cm`);
     
-    // Comparações de altura par a par
+    // Comparações par a par
     for (let i = 0; i < pessoas.length; i++) {
         for (let j = i + 1; j < pessoas.length; j++) {
             const pessoa1 = pessoas[i];
@@ -172,9 +217,9 @@ function compararAlturas(pessoas) {
     }
 }
 
-// Função para comparar cidades
+// Função para comparações de cidades
 function compararCidades(pessoas) {
-    console.log('\n=== COMPARAÇÕES DE CIDADES ===');
+    console.log('\n=== 🏙️ COMPARAÇÕES DE CIDADES ===');
     
     const cidadesPorPessoa = {};
     
@@ -198,9 +243,9 @@ function compararCidades(pessoas) {
     });
 }
 
-// Função para comparar profissões
+// Função para comparações de profissões
 function compararProfissoes(pessoas) {
-    console.log('\n=== COMPARAÇÕES DE PROFISSÕES ===');
+    console.log('\n=== 💼 COMPARAÇÕES DE PROFISSÕES ===');
     
     const profissoesPorPessoa = {};
     
@@ -226,112 +271,99 @@ function compararProfissoes(pessoas) {
 
 // Função para gerar estatísticas gerais
 function gerarEstatisticas(pessoas) {
-    console.log('\n=== ESTATÍSTICAS GERAIS ===');
+    console.log('\n=== 📊 ESTATÍSTICAS GERAIS ===');
     
     const idades = pessoas.map(p => p.idade).filter(idade => idade > 0);
     const alturas = pessoas.map(p => p.altura).filter(altura => altura > 0);
     
     if (idades.length > 0) {
         const idadeMedia = idades.reduce((sum, idade) => sum + idade, 0) / idades.length;
+        const idadeMin = Math.min(...idades);
+        const idadeMax = Math.max(...idades);
         console.log(`📊 Idade média do grupo: ${idadeMedia.toFixed(1)} anos`);
+        console.log(`📊 Faixa etária: ${idadeMin} - ${idadeMax} anos`);
     }
     
     if (alturas.length > 0) {
         const alturaMedia = alturas.reduce((sum, altura) => sum + altura, 0) / alturas.length;
+        const alturaMin = Math.min(...alturas);
+        const alturaMax = Math.max(...alturas);
         console.log(`📊 Altura média do grupo: ${alturaMedia.toFixed(1)} cm`);
+        console.log(`📊 Faixa de altura: ${alturaMin} - ${alturaMax} cm`);
     }
     
     console.log(`📊 Total de pessoas cadastradas: ${pessoas.length}`);
-    console.log(`📊 Dados coletados em: ${new Date().toLocaleString('pt-BR')}`);
+    console.log(`📊 Dados processados em: ${new Date().toLocaleString('pt-BR')}`);
 }
 
-// Função principal para executar todas as comparações
-function executarComparacoes(pessoas) {
+// Função para executar todas as comparações
+function executarTodasComparacoes(pessoas) {
     console.log('\n🔍 INICIANDO ANÁLISES E COMPARAÇÕES...');
+    console.log('Aguarde enquanto processamos todos os dados...');
     
+    // Chamar todas as funções de comparação
     compararIdades(pessoas);
     compararCoresPreferidas(pessoas);
     compararAlturas(pessoas);
     compararCidades(pessoas);
     compararProfissoes(pessoas);
     gerarEstatisticas(pessoas);
+    
+    console.log('\n✅ Todas as comparações foram concluídas!');
 }
 
-// Programa principal
-function iniciarExercicio02() {
+// Função principal do exercício
+function iniciarExercicio03() {
     console.clear();
-    console.log('🚀 EXERCÍCIO 02 - COMPARAÇÃO DE DADOS');
-    console.log('Professor Lucas Fernandes\n');
+    console.log('🚀 EXERCÍCIO 03 - ESTRUTURAS DE DADOS E OBJETOS');
+    console.log('Professor Lucas Fernandes');
+    console.log('Modelo de objeto constructor + Quantidade arbitrária\n');
     
     try {
-        // Coletar dados de múltiplas pessoas
-        const pessoas = coletarDadosMultiplasPessoas();
+        // Coletar dados de pessoas (quantidade arbitrária)
+        const pessoas = coletarTodasPessoas();
         
         if (pessoas.length >= 2) {
             // Exibir dados coletados
-            exibirDadosTodasPessoas(pessoas);
+            exibirTodasPessoas(pessoas);
             
-            // Executar comparações
-            executarComparacoes(pessoas);
+            // Executar todas as comparações (funções separadas)
+            executarTodasComparacoes(pessoas);
             
-            console.log('\n✅ Exercício 02 concluído com sucesso!');
-            console.log('🎉 Todas as comparações foram realizadas!');
+            console.log('\n🎉 EXERCÍCIO 03 CONCLUÍDO COM SUCESSO!');
+            console.log(`✨ ${pessoas.length} pessoas foram cadastradas e analisadas!`);
         } else {
-            console.log('❌ Erro: É necessário pelo menos 2 pessoas para fazer comparações!');
+            console.log('❌ Exercício cancelado. É necessário pelo menos 2 pessoas para comparações.');
         }
     } catch (error) {
         console.error('❌ Erro durante a execução:', error.message);
     }
 }
-// iniciarExercicio02();
 
-// Exemplo com dados fictícios para demonstração
+// Função de exemplo com dados fictícios
 function exemploComDadosFicticios() {
     console.clear();
     console.log('👁️ EXEMPLO COM DADOS FICTÍCIOS\n');
     
+    // Criar pessoas usando o construtor
     const pessoasExemplo = [
-        {
-            numero: 1,
-            nome: 'João',
-            sobrenome: 'Silva',
-            nomeCompleto: 'João Silva',
-            idade: 25,
-            email: 'joao.silva@email.com',
-            cidade: 'São Paulo',
-            profissao: 'desenvolvedor',
-            corPreferida: 'azul',
-            altura: 175
-        },
-        {
-            numero: 2,
-            nome: 'Maria',
-            sobrenome: 'Santos',
-            nomeCompleto: 'Maria Santos',
-            idade: 30,
-            email: 'maria.santos@email.com',
-            cidade: 'Rio de Janeiro',
-            profissao: 'designer',
-            corPreferida: 'verde',
-            altura: 165
-        },
-        {
-            numero: 3,
-            nome: 'Pedro',
-            sobrenome: 'Oliveira',
-            nomeCompleto: 'Pedro Oliveira',
-            idade: 25,
-            email: 'pedro.oliveira@email.com',
-            cidade: 'São Paulo',
-            profissao: 'desenvolvedor',
-            corPreferida: 'azul',
-            altura: 180
-        }
+        new Pessoa('João', 'Silva', 25, 'joao.silva@email.com', 'São Paulo', 'desenvolvedor', 'azul', 175),
+        new Pessoa('Maria', 'Santos', 30, 'maria.santos@email.com', 'Rio de Janeiro', 'designer', 'verde', 165),
+        new Pessoa('Pedro', 'Oliveira', 25, 'pedro.oliveira@email.com', 'São Paulo', 'desenvolvedor', 'azul', 180),
+        new Pessoa('Ana', 'Costa', 28, 'ana.costa@email.com', 'Belo Horizonte', 'professora', 'rosa', 170)
     ];
     
-    exibirDadosTodasPessoas(pessoasExemplo);
-    executarComparacoes(pessoasExemplo);
+    console.log('🏗️ Objetos criados usando função construtora:');
+    pessoasExemplo.forEach((pessoa, index) => {
+        console.log(`Pessoa ${index + 1}: new Pessoa('${pessoa.nome}', '${pessoa.sobrenome}', ${pessoa.idade}, '${pessoa.email}', '${pessoa.cidade}', '${pessoa.profissao}', '${pessoa.corPreferida}', ${pessoa.altura})`);
+    });
+    
+    exibirTodasPessoas(pessoasExemplo);
+    executarTodasComparacoes(pessoasExemplo);
 }
 
+// Executar o exercício
+// iniciarExercicio03();
 
+// Para testar com dados fictícios, descomente a linha abaixo:
 // exemploComDadosFicticios();
