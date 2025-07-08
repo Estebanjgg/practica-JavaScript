@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 04 - Eventos JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0,123,255,0.1);
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #34495e;
+            margin: 20px 0 15px 0;
+            font-size: 1.3em;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
+        }
+
+        .resultado {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #ecf0f1;
+            border-left: 4px solid #3498db;
+            font-weight: 500;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .area-hover {
+            border: 2px dashed #bdc3c7;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            background: #fdfdfd;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .area-hover:hover {
+            background: #f8f9fa;
+            border-color: #28a745;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f1f3f4;
+            border-radius: 10px;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .contador {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 Exercício 04 - Eventos JavaScript</h1>
+            <p>Aula 09 - Front end - JavaScript </p>
+        </div>
+
+        <div class="content">
+            <div class="info-box">
+                <h3>📚 Conceitos Abordados</h3>
+                <p>Eventos • Tipos de evento • Atribuição no HTML • Event Listeners • Interação assíncrona</p>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-success" onclick="executarExemplo()">🚀 Executar Exemplo</button>
+                <button class="btn btn-secondary" onclick="limparResultados()">🧹 Limpar Resultados</button>
+                <button class="btn btn-danger" onclick="console.clear()">🗑️ Limpar Console</button>
+            </div>
+
+            <!-- Seção 1: Eventos por Atributos HTML -->
+            <div class="section">
+                <h2>🖱️ Eventos por Atributos HTML</h2>
+                <p>Eventos definidos diretamente nos atributos dos elementos HTML.</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>Click Event</h3>
+                        <button id="botao-click" class="btn" onclick="eventoClick()">Clique Aqui</button>
+                        <div id="resultado-click" class="resultado"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Double Click Event</h3>
+                        <button class="btn btn-secondary" ondblclick="eventoDuploClick()">Duplo Clique</button>
+                        <div id="resultado-dblclick" class="resultado"></div>
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="card">
+                        <h3>Change Event</h3>
+                        <div class="form-group">
+                            <label for="select-opcoes">Selecione uma opção:</label>
+                            <select id="select-opcoes" class="form-control" onchange="eventoMudanca(this)">
+                                <option value="">-- Escolha uma opção --</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="html">HTML</option>
+                                <option value="css">CSS</option>
+                                <option value="react">React</option>
+                            </select>
+                        </div>
+                        <div id="resultado-change" class="resultado"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Focus/Blur Events</h3>
+                        <div class="form-group">
+                            <label for="input-focus">Campo de texto:</label>
+                            <input 
+                                type="text" 
+                                id="input-focus" 
+                                class="form-control" 
+                                placeholder="Clique aqui para focar"
+                                onfocus="eventoFoco(this)"
+                                onblur="eventoBlur(this)"
+                            >
+                        </div>
+                        <div id="resultado-focus" class="resultado"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>KeyUp Event</h3>
+                    <div class="form-group">
+                        <label for="input-texto">Digite algo:</label>
+                        <input 
+                            type="text" 
+                            id="input-texto" 
+                            class="form-control" 
+                            placeholder="Digite aqui..."
+                            onkeyup="eventoKeyUp(this, event)"
+                        >
+                        <div id="contador-chars" class="contador"></div>
+                    </div>
+                    <div id="resultado-keyup" class="resultado"></div>
+                </div>
+            </div>
+
+            <!-- Seção 2: Event Listeners -->
+            <div class="section">
+                <h2>🎧 Event Listeners</h2>
+                <p>Eventos adicionados via JavaScript usando addEventListener().</p>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>addEventListener Click</h3>
+                        <button id="botao-listener" class="btn btn-danger">Event Listener</button>
+                        <div id="resultado-listener" class="resultado"></div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Mouse Hover Events</h3>
+                        <div id="area-hover" class="area-hover">
+                            🖱️ Passe o mouse sobre esta área
+                        </div>
+                        <div id="resultado-hover" class="resultado"></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Form Submit Event</h3>
+                    <form id="formulario-exemplo">
+                        <div class="form-group">
+                            <label for="input-nome">Nome:</label>
+                            <input type="text" id="input-nome" class="form-control" placeholder="Seu nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-email">Email:</label>
+                            <input type="email" id="input-email" class="form-control" placeholder="seu@email.com" required>
+                        </div>
+                        <button type="submit" class="btn btn-success">📋 Enviar Formulário</button>
+                    </form>
+                    <div id="resultado-form" class="resultado"></div>
+                </div>
+            </div>
+
+            <!-- Seção 3: Informações e Dicas -->
+            <div class="section">
+                <h2>💡 Informações e Dicas</h2>
+                <div class="grid">
+                    <div class="card">
+                        <h3>🎯 Tipos de Eventos Implementados</h3>
+                        <ul>
+                            <li><strong>click</strong> - Clique simples do mouse</li>
+                            <li><strong>dblclick</strong> - Duplo clique do mouse</li>
+                            <li><strong>change</strong> - Mudança de valor em elementos</li>
+                            <li><strong>focus</strong> - Elemento recebe foco</li>
+                            <li><strong>blur</strong> - Elemento perde foco</li>
+                            <li><strong>keyup</strong> - Tecla é liberada</li>
+                            <li><strong>mouseenter/mouseleave</strong> - Mouse entra/sai</li>
+                            <li><strong>submit</strong> - Envio de formulário</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>⌨️ Atalhos de Teclado</h3>
+                        <ul>
+                            <li><strong>ESC</strong> - Limpar todos os resultados</li>
+                            <li><strong>Ctrl + L</strong> - Limpar console do navegador</li>
+                        </ul>
+                        <p><small>💡 Abra o Console do Navegador (F12) para ver os logs detalhados!</small></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📖 Conceitos JavaScript</h3>
+                    <p><strong>Programação Assíncrona:</strong> JavaScript trabalha de forma assíncrona, permitindo que eventos sejam disparados e tenham respostas associadas sem bloquear a execução do código.</p>
+                    <p><strong>Event Target:</strong> O objeto que disparou o evento, acessível através de <code>event.target</code>.</p>
+                    <p><strong>Event Bubbling:</strong> Os eventos "sobem" na hierarquia do DOM, permitindo captura em elementos pais.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="exercicio04.js"></script>
+</body>
+</html>
