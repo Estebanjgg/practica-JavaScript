@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 02 - JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header h2 {
+            font-size: 1.2em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .objective {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4facfe;
+        }
+        
+        .objective h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .objective ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .objective li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+        
+        .objective li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4facfe;
+            font-weight: bold;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .feature-card p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .btn.secondary {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #333;
+            box-shadow: 0 4px 15px rgba(252, 182, 159, 0.4);
+        }
+        
+        .btn.secondary:hover {
+            box-shadow: 0 6px 20px rgba(252, 182, 159, 0.6);
+        }
+        
+        .instructions {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ff6b6b;
+        }
+        
+        .instructions h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .instructions ol {
+            color: #555;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        
+        .tips {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #ffa726;
+        }
+        
+        .tips h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .tips ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .tips li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .tips li:before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+        }
+        
+        .emoji {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="emoji">📊</span>Exercício 02 - JavaScript</h1>
+            <h2>Professor Lucas Fernandes</h2>
+        </div>
+        
+        <div class="content">
+            <div class="objective">
+                <h3><span class="emoji">🎯</span>Objetivos do Exercício:</h3>
+                <ul>
+                    <li>Receber dados de múltiplas pessoas</li>
+                    <li>Comparar e exibir mensagens comparando dados</li>
+                    <li>Exibir mensagens personalizadas</li>
+                    <li>Partir do exercício anterior expandindo funcionalidades</li>
+                </ul>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <h4><span class="emoji">👥</span>Múltiplas Pessoas</h4>
+                    <p>Coleta dados de várias pessoas para comparação</p>
+                </div>
+                <div class="feature-card">
+                    <h4><span class="emoji">📊</span>Comparações</h4>
+                    <p>Compara idades, alturas, cores preferidas e mais</p>
+                </div>
+                <div class="feature-card">
+                    <h4><span class="emoji">📈</span>Estatísticas</h4>
+                    <p>Gera estatísticas e análises dos dados coletados</p>
+                </div>
+                <div class="feature-card">
+                    <h4><span class="emoji">🎨</span>Mensagens Personalizadas</h4>
+                    <p>Exibe comparações em linguagem natural</p>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><span class="emoji">📋</span>Como Usar:</h3>
+                <ol>
+                    <li>Clique em "🚀 Iniciar Exercício" para começar</li>
+                    <li>Informe quantas pessoas deseja cadastrar (mínimo 2)</li>
+                    <li>Preencha os dados de cada pessoa nos prompts</li>
+                    <li>Abra o Console do navegador (F12 → Console)</li>
+                    <li>Observe as comparações e análises geradas</li>
+                </ol>
+            </div>
+            
+            <div class="buttons">
+                <button class="btn" onclick="iniciarExercicio()">🚀 Iniciar Exercício</button>
+                <button class="btn secondary" onclick="mostrarExemplo()">👁️ Ver Exemplo</button>
+            </div>
+            
+            <div class="tips">
+                <h3><span class="emoji">💡</span>Dicas Importantes:</h3>
+                <ul>
+                    <li>Mantenha o Console aberto para ver todos os resultados</li>
+                    <li>O sistema compara automaticamente todos os dados</li>
+                    <li>Mensagens personalizadas são geradas para cada comparação</li>
+                    <li>Estatísticas gerais são calculadas automaticamente</li>
+                    <li>Dados em comum são destacados nas comparações</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script src="exercicio02.js"></script>
+    <script>
+        function iniciarExercicio() {
+            try {
+                console.clear();
+                console.log('🚀 Iniciando Exercício 02...');
+                iniciarExercicio02();
+                alert('✅ Exercício concluído! Verifique o console para ver todas as comparações e análises.');
+            } catch (error) {
+                console.error('❌ Erro:', error.message);
+                alert('❌ Erro durante a execução. Verifique o console para mais detalhes.');
+            }
+        }
+        
+        function mostrarExemplo() {
+            try {
+                console.clear();
+                console.log('👁️ Mostrando exemplo com dados fictícios...');
+                exemploComDadosFicticios();
+                alert('👁️ Exemplo exibido no console! Veja como funciona o sistema de comparações.');
+            } catch (error) {
+                console.error('❌ Erro:', error.message);
+                alert('❌ Erro ao mostrar exemplo. Verifique o console.');
+            }
+        }
+        
+        // Mensagem de boas-vindas
+        console.log('🎉 Bem-vindo ao Exercício 02 - Comparação de Dados!');
+        console.log('📚 Professor Lucas Fernandes');
+        console.log('💡 Clique nos botões da página para começar!');
+    </script>
+</body>
+</html>
