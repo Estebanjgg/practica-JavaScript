@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercício 01 - JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .info {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .button.secondary {
+            background-color: #2196f3;
+        }
+        .button.secondary:hover {
+            background-color: #1976d2;
+        }
+        .instructions {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff9800;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Exercício 01 - JavaScript</h1>
+        <h2>Professor Lucas Fernandes</h2>
+        
+        <div class="info">
+            <h3>🎯 Objetivo do Exercício:</h3>
+            <ul>
+                <li>Utilizar a função <code>prompt()</code> para receber dados do usuário</li>
+                <li>Exibir as informações no console do navegador</li>
+                <li>Agrupar informações em um objeto</li>
+                <li>Usar <code>console.table()</code> para exibir dados em formato de tabela</li>
+            </ul>
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Instruções:</h3>
+            <ol>
+                <li>Clique no botão "Iniciar Exercício" abaixo</li>
+                <li>Preencha os dados solicitados nos prompts</li>
+                <li>Abra o Console do navegador (F12 → Console) para ver os resultados</li>
+                <li>Observe como os dados são exibidos tanto individualmente quanto em tabela</li>
+            </ol>
+        </div>
+        
+        <div class="center">
+            <button class="button" onclick="iniciarExercicio()">🚀 Iniciar Exercício</button>
+            <button class="button secondary" onclick="mostrarExemplo()">👁️ Ver Exemplo</button>
+        </div>
+        
+        <div class="info" style="margin-top: 30px;">
+            <h3>💡 Dicas:</h3>
+            <ul>
+                <li>Abra o Console do navegador para ver todos os resultados</li>
+                <li>A função <code>prompt()</code> sempre retorna uma string</li>
+                <li>Use <code>parseInt()</code> para converter números</li>
+                <li><code>console.table()</code> é útil para visualizar objetos</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="exercicio01.js"></script>
+    <script>
+        // Funções para os botões da interface
+        function iniciarExercicio() {
+            console.clear();
+            console.log('🚀 Iniciando exercício...');
+            
+            try {
+                const dadosColetados = obterDadosUsuario();
+                
+                if (dadosColetados.nome && dadosColetados.sobrenome) {
+                    exibirDados(dadosColetados);
+                    alert('✅ Exercício concluído! Verifique o console para ver os resultados.');
+                } else {
+                    alert('❌ Nome e sobrenome são obrigatórios!');
+                }
+            } catch (error) {
+                console.error('❌ Erro:', error.message);
+                alert('❌ Erro durante a execução. Verifique o console.');
+            }
+        }
+        
+        function mostrarExemplo() {
+            console.clear();
+            console.log('👁️ Mostrando exemplo com dados fictícios...');
+            
+            const dadosExemplo = {
+                nome: 'Maria',
+                sobrenome: 'Santos',
+                idade: 28,
+                email: 'maria.santos@email.com',
+                cidade: 'Rio de Janeiro',
+                profissao: 'Designer'
+            };
+            
+            console.log('\n=== EXEMPLO DE DADOS ===');
+            console.log('Nome completo:', dadosExemplo.nome + ' ' + dadosExemplo.sobrenome);
+            console.log('Idade:', dadosExemplo.idade + ' anos');
+            console.log('Email:', dadosExemplo.email);
+            console.log('Cidade:', dadosExemplo.cidade);
+            console.log('Profissão:', dadosExemplo.profissao);
+            
+            console.log('\n=== DADOS EM FORMATO DE TABELA ===');
+            console.table(dadosExemplo);
+            
+            alert('👁️ Exemplo exibido no console! Abra o console para visualizar.');
+        }
+    </script>
+</body>
+</html>
